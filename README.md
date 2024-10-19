@@ -28,4 +28,4 @@ deno run update-agent --id ASSISTANT-UUID ./assistants/config-file.ts
 
 **Features Only Available via API**
 
-- [Transcriber Custom Keyworkds](https://docs.vapi.ai/customization/custom-keywords) - helps provide more accurate transcriptions for proper nouns and jargon
+- [Transcriber Custom Keywords](https://docs.vapi.ai/customization/custom-keywords) - helps provide more accurate transcriptions for proper nouns and jargon

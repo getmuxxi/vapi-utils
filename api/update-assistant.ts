@@ -36,15 +36,6 @@ function printHelp(): void {
   console.log(help)
 }
 
-// const apiKey = Deno.env.get("VAPI_PRIVATE_API_KEY")
-// const args = parseArgs(Deno.args)
-// const { id } = args
-// const configFile = args["config-file"]
-
-// console.log(`apiKey:`, apiKey)
-// console.log(`id:`, id)
-// console.log(`config-file:`, configFile)
-
 async function main(): Promise<object> {
   if (args.help) {
     printHelp()
