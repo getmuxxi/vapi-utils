@@ -3,8 +3,8 @@ import {
   logError,
   maskString,
   checkRequiredFlags,
-} from "../lib/utils.ts"
-import { loadFileContents } from "../lib/loadFile.ts"
+} from "./utils.ts"
+import { loadFileContents } from "./loadFile.ts"
 
 export type Options = {
   id?: string
@@ -22,7 +22,7 @@ function requiresData(method: string) {
   return ["POST", "PATCH"].includes(method)
 }
 
-export async function fetchApi(
+export async function api(
   method: "GET" | "POST" | "PATCH" | "DELETE",
   pathTpl: string,
   opts: Options
@@ -83,7 +83,7 @@ async function fetchWithData(
   if (!skipConfirm) {
     console.log(`${method} ${url}`)
     console.log(body)
-    const input: string | null = prompt(`${method} with the above data? y/N`, "N")
+    const input: string | null = prompt(`${method} with the above data? y/N`)
     if (input?.toUpperCase() !== "Y") {
       console.warn("Update aborted")
       Deno.exit(0)

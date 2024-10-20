@@ -1,7 +1,3 @@
-// Copyright 2024 Muxxi. All rights reserved. MIT license.
-// This code is licensed under the MIT License.
-// License text available at https://opensource.org/licenses/MIT
-
 // See https://docs.vapi.ai/api-reference/assistants/update-assistant
 
 import "@std/dotenv/load"
@@ -16,7 +12,7 @@ import {
 import { loadFileContents } from "../lib/loadFile.ts"
 
 const help = `
-Usage: update-assistant [OPTIONS...] [CONFIG FILE]
+Usage: update-assistant [OPTIONS...] [DATA FILE]
 
 Required flags:
   -i, --id               UUID of the Vapi assistant

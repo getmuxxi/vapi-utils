@@ -2,16 +2,11 @@
 
 import "@std/dotenv/load"
 import { parseArgs } from "@std/cli/parse-args"
-import { promptSecret } from "@std/cli/prompt-secret"
-import {
-  catchError,
-  logError,
-  maskString,
-  checkRequiredFlags,
-} from "../lib/utils.ts"
+import { catchError, logError } from "../lib/utils.ts"
+import { api } from "../lib/api.ts"
 
 const help = `
-Usage: get-assistant [OPTIONS...]
+Usage: update-assistant [OPTIONS...] [DATA FILE]
 
 Required flags:
   -i, --id               UUID of the Vapi assistant
@@ -19,7 +14,6 @@ Required flags:
 
   Optional flags:
   -h, --help             Display this help and exit
-  -j, --json             Output json [default false for console, true for stdout pipe]
 `
 
 const args = parseArgs(Deno.args, {
@@ -37,33 +31,12 @@ async function main(): Promise<object> {
     printHelp()
     Deno.exit(0)
   }
-
-  const id = args.id
-  let apiKey = args.key || Deno.env.get("VAPI_PRIVATE_API_KEY") || undefined
-
-  if (!apiKey) {
-    apiKey = promptSecret("Vapi API Key:") || undefined
-  }
-
-  if (Deno.stdout.isTerminal()) {
-    console.log(`API Key:`, maskString(apiKey, -5))
-    console.log(`Assistant ID:`, id)
-  }
-
-  checkRequiredFlags({ apiKey, id })
-
-  const options = {
-    method: "GET",
-    headers: { Authorization: `Bearer ${apiKey}` },
-  }
-
-  const response = await fetch(`https://api.vapi.ai/assistant/${id}`, options)
-  if (!response.ok) {
-    logError(`Vapi API Response [${response.status}]: ${response.statusText}`)
-    throw new Error(await response.text())
-  }
-  const json = await response.json()
-  return json
+  const dataFile = args._[0]?.toString()
+  return await api("PATCH", "assistant/{id}", {
+    id: args.id,
+    apiKey: args.key,
+    dataFile
+  })
 }
 
 // Run main and catch errors
@@ -75,6 +48,7 @@ if (error) {
   if (Deno.stdout.isTerminal()) {
     const output = args.json === true ? JSON.stringify(result, null, 2) : result
     console.log("Assistant:\n", output)
+    console.error(`%cAssistant successfully updated!`, "color: green")
   } else {
     // Output json to stdout if piping to a file
     const output =

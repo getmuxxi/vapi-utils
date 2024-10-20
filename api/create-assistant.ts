@@ -1,4 +1,4 @@
-// See https://docs.vapi.ai/api-reference/assistants/get-assistant
+// See https://docs.vapi.ai/api-reference/assistants/update-assistant
 
 import "@std/dotenv/load"
 import { parseArgs } from "@std/cli/parse-args"
@@ -9,9 +9,10 @@ import {
   maskString,
   checkRequiredFlags,
 } from "../lib/utils.ts"
+import { loadFileContents } from "../lib/loadFile.ts"
 
 const help = `
-Usage: get-assistant [OPTIONS...]
+Usage: update-assistant [OPTIONS...] [CONFIG FILE]
 
 Required flags:
   -i, --id               UUID of the Vapi assistant
@@ -19,7 +20,6 @@ Required flags:
 
   Optional flags:
   -h, --help             Display this help and exit
-  -j, --json             Output json [default false for console, true for stdout pipe]
 `
 
 const args = parseArgs(Deno.args, {
@@ -29,7 +29,7 @@ const args = parseArgs(Deno.args, {
 })
 
 function printHelp(): void {
-  console.warn(help)
+  console.log(help)
 }
 
 async function main(): Promise<object> {
@@ -39,6 +39,7 @@ async function main(): Promise<object> {
   }
 
   const id = args.id
+  const configFile = args._[0]?.toString()
   let apiKey = args.key || Deno.env.get("VAPI_PRIVATE_API_KEY") || undefined
 
   if (!apiKey) {
@@ -51,12 +52,30 @@ async function main(): Promise<object> {
   }
 
   checkRequiredFlags({ apiKey, id })
-
-  const options = {
-    method: "GET",
-    headers: { Authorization: `Bearer ${apiKey}` },
+  if (!configFile) {
+    throw new Error("Invalid config file")
   }
 
+  const config = await loadFileContents(configFile)
+  console.log("Config:\n", config)
+
+  // Confirm before continuing update
+  const input: string | null = prompt(
+    "Update the assistant with the above config? y/N"
+  )
+  if (input?.toUpperCase() !== "Y") {
+    console.warn("Update aborted")
+    Deno.exit(0)
+  }
+
+  const options = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(config),
+  }
   const response = await fetch(`https://api.vapi.ai/assistant/${id}`, options)
   if (!response.ok) {
     logError(`Vapi API Response [${response.status}]: ${response.statusText}`)
@@ -72,13 +91,6 @@ if (error) {
   logError(error)
   printHelp()
 } else {
-  if (Deno.stdout.isTerminal()) {
-    const output = args.json === true ? JSON.stringify(result, null, 2) : result
-    console.log("Assistant:\n", output)
-  } else {
-    // Output json to stdout if piping to a file
-    const output =
-      args.json === false ? result : JSON.stringify(result, null, 2)
-    console.log(output)
-  }
+  console.log("Assistant:\n", result)
+  console.error(`%cAssistant successfully updated!`, "color: green")
 }

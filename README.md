@@ -29,3 +29,10 @@ deno run update-agent --id ASSISTANT-UUID ./assistants/config-file.ts
 **Features Only Available via API**
 
 - [Transcriber Custom Keywords](https://docs.vapi.ai/customization/custom-keywords) - helps provide more accurate transcriptions for proper nouns and jargon
+
+
+## TODO
+
+### Tests
+- [ ] Add tests for cli flags
+- [ ] Add tests for config file loading

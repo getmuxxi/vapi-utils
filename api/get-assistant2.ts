@@ -2,11 +2,8 @@
 
 import "@std/dotenv/load"
 import { parseArgs } from "@std/cli/parse-args"
-import {
-  catchError,
-  logError,
-} from "../lib/utils.ts"
-import {fetchApi } from "./api.ts"
+import { catchError, logError } from "../lib/utils.ts"
+import { api } from "../lib/api.ts"
 
 const help = `
 Usage: get-assistant [OPTIONS...]
@@ -35,7 +32,10 @@ async function main(): Promise<object> {
     printHelp()
     Deno.exit(0)
   }
-  return await fetchApi("GET", 'assistant/{id}', {id: args.id, apiKey: args.key})
+  return await api("GET", "assistant/{id}", {
+    id: args.id,
+    apiKey: args.key,
+  })
 }
 
 // Run main and catch errors

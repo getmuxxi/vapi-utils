@@ -35,6 +35,12 @@ export default {
     ],
     provider: "openai",
     temperature: 0.7,
+    knowledgeBase: {
+      topK: 2,
+      fileIds: ["1111-2222-3333-4444"],
+      provider: "canonical",
+    },
+    emotionRecognitionEnabled: true,
   },
   recordingEnabled: true,
   firstMessage: "Hello, this is Ava. How may I assist you today?",
