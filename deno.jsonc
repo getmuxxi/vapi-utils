@@ -1,8 +1,10 @@
 {
   "tasks": {
-    "create-assistant": "deno run  --allow-read --allow-env --allow-net api/create-assistant.ts",
-    "get-assistant": "deno run  --allow-read --allow-env --allow-net api/get-assistant.ts",
-    "update-assistant": "deno run  --allow-read --allow-env --allow-net api/update-assistant.ts"
+    "assistant-list": "deno run  --allow-read --allow-env --allow-net api/list.ts assistant",
+    "assistant-create": "deno run  --allow-read --allow-env --allow-net api/create.ts assistant",
+    "assistant-get": "deno run  --allow-read --allow-env --allow-net api/get.ts assistant",
+    "assistant-update": "deno run  --allow-read --allow-env --allow-net api/update.ts assistant",
+    "file-get": "deno run  --allow-read --allow-env --allow-net api/get.ts file"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",

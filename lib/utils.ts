@@ -1,6 +1,4 @@
-// Copyright 2024 Muxxi. All rights reserved. MIT license.
-// This code is licensed under the MIT License.
-// License text available at https://opensource.org/licenses/MIT
+import { urlTplId } from './api.ts'
 
 /**
  * Wrap function call and return [error, data]
@@ -56,7 +54,7 @@ export function maskString(
   }
 }
 
-export function checkRequired(method: string, {
+export function checkRequired(url: string, {
   apiKey,
   id,
 }: {
@@ -69,7 +67,7 @@ export function checkRequired(method: string, {
       'Invalid API key. Set VAPI_PRIVATE_API_KEY in .env or --key flag',
     )
   }
-  if (method !== 'POST' && !id) {
+  if (url.includes(urlTplId) && !id) {
     errors.push('Invalid assistant ID. Set --id flag')
   }
   if (errors.length) {

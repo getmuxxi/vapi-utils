@@ -10,16 +10,20 @@ Uses Deno v2 to simplify running typescript cli scripts.
 ```bash
 brew install deno
 
-# Get an assistant from Vapi API
-deno run get-assistant --id ASSISTANT-UUID
+# List assistants
+deno run assistant-list --id ASSISTANT-UUID
+# Get an assistant
+deno run assistant-get --id ASSISTANT-UUID
 # Pipe JSON output to a file
-deno run get-assistant --id ASSISTANT-UUID > output.json
+deno run assistant-get --id ASSISTANT-UUID > output.json
 
 # Update a persistent assistant
 # Patches with new settings in config-file
 # json, js, and ts config files supported
-deno run update-agent --id ASSISTANT-UUID ./assistants/config-file.ts
+deno run assistant-update --id ASSISTANT-UUID ./assistants/config-file.ts
 ```
+
+See [deno.jsonc]() for more API commands.
 
 **Deno Dev Commands**
 

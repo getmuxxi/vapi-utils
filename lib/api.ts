@@ -12,13 +12,13 @@ export type Options = {
   skipConfirm?: boolean // Skip confirmation prompt for destructive api calls
 }
 
-const ID_TPL_VAR = '{id}'
+export const urlTplId = '{id}'
 
 export async function api(
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
   pathTpl: string,
   opts: Options,
-): Promise<object> {
+): Promise<object | object[]> {
   const { useLog = true } = opts
   let { id, usePrompt = Deno.stdout.isTerminal() } = opts
 
@@ -27,11 +27,11 @@ export async function api(
     (usePrompt && promptSecret('Vapi API Key:')?.trim()) ||
     undefined
 
-  if (pathTpl.includes(ID_TPL_VAR) && !id && usePrompt) {
-    const apiType = pathTpl.replace(new RegExp(`\\/?${ID_TPL_VAR}`), '')
+  if (pathTpl.includes(urlTplId) && !id && usePrompt) {
+    const apiType = pathTpl.replace(new RegExp(`\\/?${urlTplId}`), '')
     id = prompt(`ID for ${apiType}:`)?.trim() || ''
   }
-  const url = `https://api.vapi.ai/${pathTpl.replace(ID_TPL_VAR, id ?? '')}`
+  const url = `https://api.vapi.ai/${pathTpl.replace(urlTplId, id ?? '')}`
 
   if (useLog && Deno.stdout.isTerminal()) {
     console.log(`API Key:`, maskString(apiKey, -5))

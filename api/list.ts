@@ -1,42 +1,40 @@
 // See https://docs.vapi.ai/api-reference/assistants/get-assistant
 
-import '@std/dotenv/load'
 import { parseArgs } from '@std/cli/parse-args'
-import { catchError, logError } from '../lib/utils.ts'
+import '@std/dotenv/load'
 import { api } from '../lib/api.ts'
+import { catchError, logError } from '../lib/utils.ts'
+
+const args = parseArgs(Deno.args, {
+  string: ['key'],
+  boolean: ['help', 'json'],
+  alias: { help: 'h', json: 'j', key: 'k' },
+})
+const resource = args._[0]?.toString()
 
 const help = `
-Usage: update-assistant [OPTIONS...] [DATA FILE]
+Usage: ${resource}-list [OPTIONS...]
 
 Required flags:
-  -i, --id               UUID of the Vapi assistant
   -k, --key              Vapi API key. Prompts for key if none provided in args or .env
 
   Optional flags:
   -h, --help             Display this help and exit
+  -j, --json             Output json [default false for console, true for stdout pipe]
 `
-
-const args = parseArgs(Deno.args, {
-  string: ['id', 'key'],
-  boolean: ['help', 'json'],
-  alias: { help: 'h', id: 'i', json: 'j', key: 'k' },
-})
 
 function printHelp(): void {
   console.warn(help)
 }
 
-async function main(): Promise<object> {
+async function main(): Promise<object[]> {
   if (args.help) {
     printHelp()
     Deno.exit(0)
   }
-  const dataFile = args._[0]?.toString()
-  return await api('PATCH', 'assistant/{id}', {
-    id: args.id,
+  return await api('GET', resource, {
     apiKey: args.key,
-    dataFile,
-  })
+  }) as object[]
 }
 
 // Run main and catch errors
@@ -47,8 +45,8 @@ if (error) {
 } else {
   if (Deno.stdout.isTerminal()) {
     const output = args.json === true ? JSON.stringify(result, null, 2) : result
-    console.log('Assistant:\n', output)
-    console.error(`%cAssistant successfully updated!`, 'color: green')
+    console.log(`${resource}:\n`, output)
+    console.log(`%cNum ${resource}: ${result.length}`, 'color: green')
   } else {
     // Output json to stdout if piping to a file
     const output = args.json === false ? result : JSON.stringify(result, null, 2)

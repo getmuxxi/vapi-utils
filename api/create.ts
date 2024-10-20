@@ -5,8 +5,15 @@ import '@std/dotenv/load'
 import { api } from '../lib/api.ts'
 import { catchError, logError } from '../lib/utils.ts'
 
+const args = parseArgs(Deno.args, {
+  string: ['key'],
+  boolean: ['help', 'json'],
+  alias: { help: 'h', json: 'j', key: 'k' },
+})
+const resource = args._[0]?.toString()
+
 const help = `
-Usage: create-assistant [OPTIONS...] [DATA FILE]
+Usage: ${resource}-create [OPTIONS...] [DATA FILE]
 
 Required flags:
   -k, --key              Vapi API key. Prompts for key if none provided in args or .env
@@ -14,12 +21,6 @@ Required flags:
   Optional flags:
   -h, --help             Display this help and exit
 `
-
-const args = parseArgs(Deno.args, {
-  string: ['key'],
-  boolean: ['help', 'json'],
-  alias: { help: 'h', json: 'j', key: 'k' },
-})
 
 function printHelp(): void {
   console.warn(help)
@@ -30,8 +31,8 @@ async function main(): Promise<object> {
     printHelp()
     Deno.exit(0)
   }
-  const dataFile = args._[0]?.toString()
-  return await api('POST', 'assistant', {
+  const dataFile = args._[1]?.toString()
+  return await api('POST', resource, {
     apiKey: args.key,
     dataFile,
   })
@@ -45,8 +46,8 @@ if (error) {
 } else {
   if (Deno.stdout.isTerminal()) {
     const output = args.json === true ? JSON.stringify(result, null, 2) : result
-    console.log('Assistant:\n', output)
-    console.error(`%cAssistant successfully created!`, 'color: green')
+    console.log(`${resource}:\n`, output)
+    console.error(`%c${resource} successfully created!`, 'color: green')
   } else {
     // Output json to stdout if piping to a file
     const output = args.json === false ? result : JSON.stringify(result, null, 2)
