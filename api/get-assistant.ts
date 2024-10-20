@@ -2,8 +2,8 @@
 
 import '@std/dotenv/load'
 import { parseArgs } from '@std/cli/parse-args'
-import { promptSecret } from '@std/cli/prompt-secret'
-import { catchError, checkRequiredFlags, logError, maskString } from '../lib/utils.ts'
+import { catchError, logError } from '../lib/utils.ts'
+import { api } from '../lib/api.ts'
 
 const help = `
 Usage: get-assistant [OPTIONS...]
@@ -32,33 +32,10 @@ async function main(): Promise<object> {
     printHelp()
     Deno.exit(0)
   }
-
-  const id = args.id
-  let apiKey = args.key || Deno.env.get('VAPI_PRIVATE_API_KEY') || undefined
-
-  if (!apiKey) {
-    apiKey = promptSecret('Vapi API Key:') || undefined
-  }
-
-  if (Deno.stdout.isTerminal()) {
-    console.log(`API Key:`, maskString(apiKey, -5))
-    console.log(`Assistant ID:`, id)
-  }
-
-  checkRequiredFlags({ apiKey, id })
-
-  const options = {
-    method: 'GET',
-    headers: { Authorization: `Bearer ${apiKey}` },
-  }
-
-  const response = await fetch(`https://api.vapi.ai/assistant/${id}`, options)
-  if (!response.ok) {
-    logError(`Vapi API Response [${response.status}]: ${response.statusText}`)
-    throw new Error(await response.text())
-  }
-  const json = await response.json()
-  return json
+  return await api('GET', 'assistant/{id}', {
+    id: args.id,
+    apiKey: args.key,
+  })
 }
 
 // Run main and catch errors

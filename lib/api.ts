@@ -79,7 +79,7 @@ async function fetchWithData(
     console.log(body)
     const input: string | null = prompt(`${method} with the above data? y/N`)
     if (input?.toUpperCase() !== 'Y') {
-      console.warn('Update aborted')
+      console.error(`%cUpdate aboarted`, "color: red")
       Deno.exit(0)
     }
   }

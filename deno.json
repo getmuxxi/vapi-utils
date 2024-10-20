@@ -1,7 +1,7 @@
 {
   "tasks": {
-    "get-assistant": "deno run  --allow-read --allow-env --allow-net api/get-assistant2.ts",
-    "update-assistant": "deno run  --allow-read --allow-env --allow-net api/update-assistant2.ts"
+    "get-assistant": "deno run  --allow-read --allow-env --allow-net api/get-assistant.ts",
+    "update-assistant": "deno run  --allow-read --allow-env --allow-net api/update-assistant.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1",
