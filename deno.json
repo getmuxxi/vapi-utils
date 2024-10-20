@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "get-assistant": "deno run  --allow-read --allow-env --allow-net api/get-assistant.ts",
+    "get-assistant": "deno run  --allow-read --allow-env --allow-net api/get-assistant2.ts",
     "update-assistant": "deno run  --allow-read --allow-env --allow-net api/update-assistant.ts"
   },
   "imports": {
