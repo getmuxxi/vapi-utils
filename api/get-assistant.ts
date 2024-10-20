@@ -33,7 +33,7 @@ const args = parseArgs(Deno.args, {
 })
 
 function printHelp(): void {
-  console.log(help)
+  console.warn(help)
 }
 
 async function main(): Promise<object> {
