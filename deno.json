@@ -8,5 +8,14 @@
     "@std/cli": "jsr:@std/cli@^1.0.6",
     "@std/dotenv": "jsr:@std/dotenv@^0.225.2",
     "@std/jsonc": "jsr:@std/jsonc@^1.0.1"
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "singleQuote": true,
+    "proseWrap": "always",
+    "semiColons": false,
+    "exclude": ["tmp/"]
   }
 }

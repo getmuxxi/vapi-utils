@@ -5,9 +5,9 @@
 /**
  * Wrap function call and return [error, data]
  * See https://www.youtube.com/watch?v=AdmGHwvgaVs
- **/
+ */
 export function catchError<T>(
-  promise: Promise<T>
+  promise: Promise<T>,
 ): Promise<[undefined, T] | [Error]> {
   return promise
     .then((data) => {
@@ -24,7 +24,7 @@ export function catchError<T>(
  */
 export function logError(...args: unknown[]) {
   const [error, ...rest] = args
-  console.error(`%c${error}`, "color: red", ...rest)
+  console.error(`%c${error}`, 'color: red', ...rest)
 }
 
 /**
@@ -35,24 +35,24 @@ export function logError(...args: unknown[]) {
  */
 export function maskString(
   input: string | undefined | null,
-  numShow = 0
+  numShow = 0,
 ): string {
   if (!input) {
-    return "[undefined]"
+    return '[undefined]'
   }
   if (input === null) {
-    return "[null]"
+    return '[null]'
   }
   if (Math.abs(numShow) > input.length) {
     numShow = 0
   }
   if (numShow > 0) {
-    return `${input.slice(0, numShow)}${"*".repeat(input.length - numShow)}`
+    return `${input.slice(0, numShow)}${'*'.repeat(input.length - numShow)}`
   } else if (numShow < 0) {
     const absLength = Math.abs(numShow)
-    return `${"*".repeat(input.length - absLength)}${input.slice(-absLength)}`
+    return `${'*'.repeat(input.length - absLength)}${input.slice(-absLength)}`
   } else {
-    return "*".repeat(input.length)
+    return '*'.repeat(input.length)
   }
 }
 
@@ -66,14 +66,14 @@ export function checkRequiredFlags({
   const errors = []
   if (!apiKey) {
     errors.push(
-      "Invalid API key. Set VAPI_PRIVATE_API_KEY in .env or --key flag"
+      'Invalid API key. Set VAPI_PRIVATE_API_KEY in .env or --key flag',
     )
   }
   if (!id) {
-    errors.push("Invalid assistant ID. Set --id flag")
+    errors.push('Invalid assistant ID. Set --id flag')
   }
   if (errors.length) {
-    throw new Error(errors.join("\n"))
+    throw new Error(errors.join('\n'))
   }
   return true
 }

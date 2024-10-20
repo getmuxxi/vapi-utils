@@ -1,9 +1,9 @@
 // See https://docs.vapi.ai/api-reference/assistants/get-assistant
 
-import "@std/dotenv/load"
-import { parseArgs } from "@std/cli/parse-args"
-import { catchError, logError } from "../lib/utils.ts"
-import { api } from "../lib/api.ts"
+import '@std/dotenv/load'
+import { parseArgs } from '@std/cli/parse-args'
+import { catchError, logError } from '../lib/utils.ts'
+import { api } from '../lib/api.ts'
 
 const help = `
 Usage: get-assistant [OPTIONS...]
@@ -18,9 +18,9 @@ Required flags:
 `
 
 const args = parseArgs(Deno.args, {
-  string: ["id", "key"],
-  boolean: ["help", "json"],
-  alias: { help: "h", id: "i", json: "j", key: "k" },
+  string: ['id', 'key'],
+  boolean: ['help', 'json'],
+  alias: { help: 'h', id: 'i', json: 'j', key: 'k' },
 })
 
 function printHelp(): void {
@@ -32,7 +32,7 @@ async function main(): Promise<object> {
     printHelp()
     Deno.exit(0)
   }
-  return await api("GET", "assistant/{id}", {
+  return await api('GET', 'assistant/{id}', {
     id: args.id,
     apiKey: args.key,
   })
@@ -46,11 +46,10 @@ if (error) {
 } else {
   if (Deno.stdout.isTerminal()) {
     const output = args.json === true ? JSON.stringify(result, null, 2) : result
-    console.log("Assistant:\n", output)
+    console.log('Assistant:\n', output)
   } else {
     // Output json to stdout if piping to a file
-    const output =
-      args.json === false ? result : JSON.stringify(result, null, 2)
+    const output = args.json === false ? result : JSON.stringify(result, null, 2)
     console.log(output)
   }
 }

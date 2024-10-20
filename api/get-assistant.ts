@@ -1,14 +1,9 @@
 // See https://docs.vapi.ai/api-reference/assistants/get-assistant
 
-import "@std/dotenv/load"
-import { parseArgs } from "@std/cli/parse-args"
-import { promptSecret } from "@std/cli/prompt-secret"
-import {
-  catchError,
-  logError,
-  maskString,
-  checkRequiredFlags,
-} from "../lib/utils.ts"
+import '@std/dotenv/load'
+import { parseArgs } from '@std/cli/parse-args'
+import { promptSecret } from '@std/cli/prompt-secret'
+import { catchError, checkRequiredFlags, logError, maskString } from '../lib/utils.ts'
 
 const help = `
 Usage: get-assistant [OPTIONS...]
@@ -23,9 +18,9 @@ Required flags:
 `
 
 const args = parseArgs(Deno.args, {
-  string: ["id", "key"],
-  boolean: ["help", "json"],
-  alias: { help: "h", id: "i", json: "j", key: "k" },
+  string: ['id', 'key'],
+  boolean: ['help', 'json'],
+  alias: { help: 'h', id: 'i', json: 'j', key: 'k' },
 })
 
 function printHelp(): void {
@@ -39,10 +34,10 @@ async function main(): Promise<object> {
   }
 
   const id = args.id
-  let apiKey = args.key || Deno.env.get("VAPI_PRIVATE_API_KEY") || undefined
+  let apiKey = args.key || Deno.env.get('VAPI_PRIVATE_API_KEY') || undefined
 
   if (!apiKey) {
-    apiKey = promptSecret("Vapi API Key:") || undefined
+    apiKey = promptSecret('Vapi API Key:') || undefined
   }
 
   if (Deno.stdout.isTerminal()) {
@@ -53,7 +48,7 @@ async function main(): Promise<object> {
   checkRequiredFlags({ apiKey, id })
 
   const options = {
-    method: "GET",
+    method: 'GET',
     headers: { Authorization: `Bearer ${apiKey}` },
   }
 
@@ -74,11 +69,10 @@ if (error) {
 } else {
   if (Deno.stdout.isTerminal()) {
     const output = args.json === true ? JSON.stringify(result, null, 2) : result
-    console.log("Assistant:\n", output)
+    console.log('Assistant:\n', output)
   } else {
     // Output json to stdout if piping to a file
-    const output =
-      args.json === false ? result : JSON.stringify(result, null, 2)
+    const output = args.json === false ? result : JSON.stringify(result, null, 2)
     console.log(output)
   }
 }
