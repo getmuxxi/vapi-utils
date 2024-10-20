@@ -30,23 +30,29 @@ export function logError(...args: unknown[]) {
 /**
  * Mask a string with '*' except the number of chars set in length
  * @param input String to mask
- * @param length If positive, show the start of string. If negative, show the end of string.
+ * @param numShow If positive, show the start of string. If negative, show the end of string.
  * @returns
  */
-export function maskString(input: string | undefined | null, length=0): string {
+export function maskString(
+  input: string | undefined | null,
+  numShow = 0
+): string {
   if (!input) {
-    return '[undefined]'
+    return "[undefined]"
   }
   if (input === null) {
-    return '[null]'
+    return "[null]"
   }
-  if (length > 0) {
-    return `${input.slice(0, length)}${"*".repeat(input.length - length)}`;
-  } else if (length < 0) {
-    const absLength = Math.abs(length);
-    return `${"*".repeat(input.length - absLength)}${input.slice(-absLength)}`;
+  if (Math.abs(numShow) > input.length) {
+    numShow = 0
+  }
+  if (numShow > 0) {
+    return `${input.slice(0, numShow)}${"*".repeat(input.length - numShow)}`
+  } else if (numShow < 0) {
+    const absLength = Math.abs(numShow)
+    return `${"*".repeat(input.length - absLength)}${input.slice(-absLength)}`
   } else {
-    return "*".repeat(input.length - length)
+    return "*".repeat(input.length)
   }
 }
 
