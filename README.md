@@ -23,7 +23,7 @@ deno run assistant-get --id ASSISTANT-UUID > output.json
 deno run assistant-update --id ASSISTANT-UUID ./assistants/config-file.ts
 ```
 
-See [./deno.jsonc]() for more API commands.
+See [deno.jsonc](deno.jsonc) for more API commands.
 
 **Deno Dev Commands**
 
