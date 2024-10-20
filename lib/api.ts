@@ -1,6 +1,6 @@
 import { promptSecret } from '@std/cli/prompt-secret'
-import { checkRequiredFlags, logError, maskString } from './utils.ts'
 import { loadFileContents } from './loadFile.ts'
+import { checkRequired, logError, maskString, requiresData } from './utils.ts'
 
 export type Options = {
   id?: string
@@ -13,10 +13,6 @@ export type Options = {
 }
 
 const ID_TPL_VAR = '{id}'
-
-function requiresData(method: string) {
-  return ['POST', 'PATCH'].includes(method)
-}
 
 export async function api(
   method: 'GET' | 'POST' | 'PATCH' | 'DELETE',
@@ -42,7 +38,7 @@ export async function api(
     console.log(`API URL:`, url)
   }
 
-  checkRequiredFlags({ apiKey, id })
+  checkRequired(method, { apiKey, id })
 
   let response: Response
   if (requiresData(method)) {
@@ -79,7 +75,7 @@ async function fetchWithData(
     console.log(body)
     const input: string | null = prompt(`${method} with the above data? y/N`)
     if (input?.toUpperCase() !== 'Y') {
-      console.error(`%cUpdate aboarted`, "color: red")
+      console.error(`%cUpdate aboarted`, 'color: red')
       Deno.exit(0)
     }
   }

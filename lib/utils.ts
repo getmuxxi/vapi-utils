@@ -56,7 +56,7 @@ export function maskString(
   }
 }
 
-export function checkRequiredFlags({
+export function checkRequired(method: string, {
   apiKey,
   id,
 }: {
@@ -69,11 +69,15 @@ export function checkRequiredFlags({
       'Invalid API key. Set VAPI_PRIVATE_API_KEY in .env or --key flag',
     )
   }
-  if (!id) {
+  if (method !== 'POST' && !id) {
     errors.push('Invalid assistant ID. Set --id flag')
   }
   if (errors.length) {
     throw new Error(errors.join('\n'))
   }
   return true
+}
+
+export function requiresData(method: string) {
+  return ['POST', 'PATCH'].includes(method)
 }

@@ -1,5 +1,6 @@
 {
   "tasks": {
+    "create-assistant": "deno run  --allow-read --allow-env --allow-net api/create-assistant.ts",
     "get-assistant": "deno run  --allow-read --allow-env --allow-net api/get-assistant.ts",
     "update-assistant": "deno run  --allow-read --allow-env --allow-net api/update-assistant.ts"
   },
