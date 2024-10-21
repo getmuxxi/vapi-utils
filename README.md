@@ -37,7 +37,9 @@ deno fmt --check
 
 ## Docs & References
 
-[Vapi API Reference](https://docs.vapi.ai/api-reference/assistants/get-assistant)
+- [Vapi API Reference](https://docs.vapi.ai/api-reference/assistants/get-assistant)
+- [Vapi Server Functions Example](https://github.com/VapiAI/server-example-serverless-cloudflare) -
+  cloudflare deployable
 
 **Features Only Available via API**
 
