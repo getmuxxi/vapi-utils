@@ -9,6 +9,7 @@
     "jsr:@std/dotenv@~0.225.2": "0.225.2",
     "jsr:@std/internal@^1.0.4": "1.0.4",
     "jsr:@std/jsonc@^1.0.1": "1.0.1",
+    "npm:create-hono@*": "0.14.2",
     "npm:openai@^4.68.1": "4.68.1"
   },
   "jsr": {
@@ -74,6 +75,9 @@
       "dependencies": [
         "delayed-stream"
       ]
+    },
+    "create-hono@0.14.2": {
+      "integrity": "sha512-u/V4IKUxUKCb1oNIX13A4nP9aVeVYvWGcQ8wVK6AjSagR4gsjvo6F8SqqHa/maSKVOXnd7oSOQ4Q9QvpcurOsw=="
     },
     "delayed-stream@1.0.0": {
       "integrity": "sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ=="

@@ -1,7 +1,7 @@
 import { Hono } from '@hono/hono'
+import { Bindings } from '../types/hono.types.ts'
 import { basicHandler } from './basic.ts'
 import { ragHandler } from './rag.ts'
-import { Bindings } from './types/hono.types.ts'
 
 const app = new Hono<{ Bindings: Bindings }>()
 

@@ -12,7 +12,7 @@ Use the function examples in this folder for local development and testing.
 1. Start the local functions server
 
 ```bash
-deno run --allow-net --allow-env functions/index.ts
+deno run --allow-net --allow-env index.ts
 ```
 
 2. Use ngrok to proxy to local server

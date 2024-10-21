@@ -1,10 +1,10 @@
 import { Hono } from '@hono/hono'
-import { Bindings } from './types/hono.types.ts'
-import { VapiPayload, VapiWebhookEnum } from './types/vapi.types.ts'
+import { Bindings } from '../types/hono.types.ts'
+import { VapiPayload, VapiWebhookEnum } from '../types/vapi.types.ts'
 
-const basicHandler = new Hono<{ Bindings: Bindings }>()
+const ragHandler = new Hono<{ Bindings: Bindings }>()
 
-basicHandler.post('/', async (c) => {
+ragHandler.post('/', async (c) => {
   try {
     const reqBody = await c.req.json()
     const payload: VapiPayload = reqBody.message
@@ -20,10 +20,12 @@ basicHandler.post('/', async (c) => {
       console.log('functionCall', functionCall)
       console.log('parameters:', parameters)
 
-      if (name === 'getRandomName') {
+      if (name === 'getCharacterInspiration') {
         const result = {
-          result: 'Random Name',
+          response:
+            'This is a placeholder response for the getCharacterInspiration function. It should be replaced with the actual implementation.',
         }
+        // const result = await getCharacterInspiration(parameters as any)
         return c.json(result, 201)
       } else {
         console.log(`Function ${name} not found`)
@@ -38,4 +40,4 @@ basicHandler.post('/', async (c) => {
   }
 })
 
-export { basicHandler }
+export { ragHandler }
