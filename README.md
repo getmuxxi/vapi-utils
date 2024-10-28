@@ -35,7 +35,7 @@ deno run assistant-create assistant.json
 # Output to terminal:
 deno run assistant-get --id ASSISTANT-UUID
 # Output to file:
-deno run assistant-get --id ASSISTANT-UUID > output.json
+deno run assistant-get --id ASSISTANT-UUID --json > output.json
 
 # UPDATE assistant
 # Patches with new settings from config-file
