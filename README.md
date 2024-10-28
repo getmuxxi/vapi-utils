@@ -7,18 +7,38 @@ be used to fetch existing persistent assistants and patch them with additional c
 
 Uses Deno v2 to simplify running typescript cli scripts.
 
+## Setup
+
 ```bash
 brew install deno
 
-# List assistants
-deno run assistant-list --id ASSISTANT-UUID
-# Get an assistant
+# Optionally create .env
+cp .env.example .env
+# Then manually add Vapi private API key to .env
+# If no key is set, either pass in as an CLI arg or script will prompt for key
+
+# HELP
+# Run any script with -h
+deno run assistant-list -h
+```
+
+## Commands
+
+```bash
+# LIST assistants
+deno run assistant-list
+
+# CREATE assistant
+deno run assistant-create assistant.json
+
+# GET assistant
+# Output to terminal:
 deno run assistant-get --id ASSISTANT-UUID
-# Pipe JSON output to a file
+# Output to file:
 deno run assistant-get --id ASSISTANT-UUID > output.json
 
-# Update a persistent assistant
-# Patches with new settings in config-file
+# UPDATE assistant
+# Patches with new settings from config-file
 # json, js, and ts config files supported
 deno run assistant-update --id ASSISTANT-UUID ./assistants/config-file.ts
 ```
